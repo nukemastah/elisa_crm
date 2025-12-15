@@ -17,5 +17,6 @@ Route::middleware(['auth.simple'])->group(function () {
     Route::resource('leads', LeadController::class);
     Route::resource('products', ProductController::class);
     Route::resource('projects', ProjectController::class);
+    Route::post('projects/{project}/approve', [ProjectController::class, 'approve'])->name('projects.approve');
     Route::resource('customers', CustomerController::class);
 });
