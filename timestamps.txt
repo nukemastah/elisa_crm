@@ -1,0 +1,6 @@
+Start: 2025-12-15T12:00:00Z
+Expected Deadline (3 x 24h): 2025-12-18T12:00:00Z
+
+Notes:
+- Work started by preparing repository skeleton and artifacts: README, SQL schema, data dictionary, docker-compose, drawio.
+- Next steps: scaffold Laravel 11 project, create migrations from `database/schema.sql`, implement auth and UI pages, push to GitHub `namadepan_crm`.
