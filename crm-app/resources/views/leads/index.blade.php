@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('content')
   <h2>Leads</h2>
   <a href="{{ route('leads.create') }}">Create Lead</a>
