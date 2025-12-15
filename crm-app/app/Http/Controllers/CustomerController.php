@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Lead;
 use App\Models\Product;
 use App\Models\CustomerService;
 use Illuminate\Support\Facades\View;
@@ -21,16 +22,28 @@ class CustomerController
     public function create()
     {
         $products = Product::all();
-        return View::make('customers.create', compact('products'));
+        $leads = Lead::all();
+        return View::make('customers.create', compact('products', 'leads'));
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate(['name'=>'required','phone'=>'nullable','email'=>'nullable','address'=>'nullable']);
-        $customer = Customer::create($data + ['joined_at'=>Carbon::now()]);
+        $data = $request->validate(['name'=>'required','phone'=>'nullable','email'=>'nullable','address'=>'nullable','lead_id'=>'nullable','joined_at'=>'required|date']);
+        $customer = Customer::create($data);
 
-        if ($request->filled('product_id')) {
-            CustomerService::create(['customer_id'=>$customer->id,'product_id'=>$request->product_id,'start_date'=>Carbon::now(),'monthly_fee'=> $request->monthly_fee ?? 0,'status'=>'active']);
+        // Handle multiple services
+        if ($request->has('services')) {
+            foreach ($request->services as $productId => $serviceData) {
+                if (isset($serviceData['product_id'])) {
+                    CustomerService::create([
+                        'customer_id' => $customer->id,
+                        'product_id' => $serviceData['product_id'],
+                        'start_date' => $serviceData['start_date'] ?? Carbon::now(),
+                        'monthly_fee' => $serviceData['monthly_fee'] ?? 0,
+                        'status' => $serviceData['status'] ?? 'active'
+                    ]);
+                }
+            }
         }
 
         return Redirect::route('customers.index');

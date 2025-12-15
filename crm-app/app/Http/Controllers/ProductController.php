@@ -22,7 +22,7 @@ class ProductController
 
     public function store(Request $request)
     {
-        $data = $request->validate(["code"=>"required","name"=>"required","monthly_price"=>"nullable"]);
+        $data = $request->validate(["code"=>"required","name"=>"required","description"=>"nullable","monthly_price"=>"nullable"]);
         Product::create($data);
         return Redirect::route('products.index');
     }
