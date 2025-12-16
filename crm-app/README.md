@@ -1,59 +1,272 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRM Application - PT. Smart ISP
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Customer Relationship Management system untuk PT. Smart (Internet Service Provider) yang membantu divisi sales dalam mengelola calon customer (leads), produk layanan internet, project penjualan, dan customer berlangganan.
 
-## About Laravel
+## 📋 Informasi Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Tanggal Pengerjaan:**
+- Mulai: 15 Desember 2025
+- Selesai: 16 Desember 2025
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Stack Teknologi:**
+- Laravel 11
+- PHP 8.5
+- PostgreSQL 14
+- Simple.css Framework
+- Vanilla JavaScript
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Fitur Aplikasi
 
-## Learning Laravel
+### 1. Authentication
+- ✅ Halaman login dengan session-based authentication
+- ✅ Logout functionality
+- ✅ Middleware untuk proteksi route
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 2. Manajemen Leads (Calon Customer)
+- ✅ List semua leads dengan informasi lengkap
+- ✅ Tambah lead baru (nama, email, phone, address, source, status)
+- ✅ Edit data lead
+- ✅ Status tracking (new, contacted, qualified, lost)
+- ✅ Assignment ke user tertentu
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Master Produk (Layanan Internet)
+- ✅ List semua produk layanan
+- ✅ Tambah produk baru (code, name, description, monthly_price)
+- ✅ Edit data produk
+- ✅ Format harga dengan pemisah ribuan
 
-## Laravel Sponsors
+### 4. Manajemen Project
+- ✅ Proses konversi lead menjadi project
+- ✅ Assignment produk ke project
+- ✅ Estimasi biaya project
+- ✅ **Approval Manager** - Manager dapat approve/reject project
+- ✅ Status tracking (pending, approved, rejected, completed)
+- ✅ Approval notes untuk catatan manager
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 5. Customer Berlangganan
+- ✅ List customer yang sudah berlangganan
+- ✅ Tambah customer baru dengan link ke lead
+- ✅ **Multiple Services** - Customer dapat berlangganan beberapa layanan sekaligus
+- ✅ Detail layanan per customer (start_date, end_date, monthly_fee, status)
+- ✅ Tracking tanggal bergabung (joined_at)
 
-### Premium Partners
+### 6. User Interface
+- ✅ Responsive design dengan sidebar navigation
+- ✅ Burger menu untuk mobile view
+- ✅ Consistent color scheme (purple primary, red cancel)
+- ✅ Clean and modern UI dengan good contrast
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📁 Struktur Database
 
-## Contributing
+### Tables:
+1. **users** - User untuk login dan assignment
+2. **leads** - Calon customer
+3. **products** - Master produk layanan internet
+4. **projects** - Project penjualan dengan approval workflow
+5. **customers** - Customer yang sudah berlangganan
+6. **customer_services** - Pivot table untuk customer-product (many-to-many)
+7. **approvals** - History approval (optional, untuk tracking)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Lihat **DATA_DICTIONARY.md** untuk detail lengkap struktur database.
 
-## Code of Conduct
+## 🔧 Instalasi & Setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Prerequisites
+- PHP >= 8.2
+- Composer
+- PostgreSQL 14
+- Node.js & NPM (optional, untuk asset compilation)
 
-## Security Vulnerabilities
+### Langkah Instalasi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Clone Repository**
+```bash
+git clone <repository-url>
+cd crm-app
+```
 
-## License
+2. **Install Dependencies**
+```bash
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Setup Environment**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Konfigurasi Database**
+
+Edit file `.env`:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=crm_db
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+```
+
+5. **Setup Database dengan Docker (Recommended)**
+```bash
+docker run -d \
+  --name crm_postgres \
+  -e POSTGRES_DB=crm_db \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -p 5432:5432 \
+  postgres:14
+```
+
+6. **Jalankan Migration**
+```bash
+php artisan migrate
+```
+
+7. **Import Sample Data (Optional)**
+```bash
+# Jika ada file database/schema.sql
+psql -U postgres -d crm_db -f database/schema.sql
+```
+
+8. **Buat User untuk Login**
+```bash
+php artisan tinker
+```
+```php
+\App\Models\User::create([
+    'name' => 'Admin',
+    'email' => 'admin@smart.com',
+    'password' => bcrypt('password123')
+]);
+```
+
+9. **Jalankan Aplikasi**
+```bash
+php artisan serve
+```
+
+Akses aplikasi di: **http://localhost:8000**
+
+**Login Credentials:**
+- Email: admin@smart.com
+- Password: password123
+
+## 📊 Entity Relationship Diagram
+
+ERD tersedia dalam file: `drawio/er_diagram.drawio`
+
+Buka dengan aplikasi [draw.io](https://app.diagrams.net/) untuk melihat visualisasi hubungan antar table.
+
+**Key Relationships:**
+- Leads → Projects (One to Many)
+- Products → Projects (One to Many)
+- Customers → Customer Services → Products (Many to Many)
+- Leads → Customers (One to One)
+- Users → Leads (One to Many, assignment)
+- Users → Projects (One to Many, manager approval)
+
+## 🗂️ Dokumentasi Tambahan
+
+- **DATA_DICTIONARY.md** - Penjelasan lengkap struktur database, field types, constraints, dan relationships
+- **SYSTEM_ANALYST_GUIDE.md** - Panduan untuk System Analyst memahami flow aplikasi, business logic, dan use cases
+- **database/schema.sql** - SQL dump untuk import database
+- **drawio/er_diagram.drawio** - Entity Relationship Diagram
+
+## 🎯 Use Case Flow
+
+### 1. Lead Management Flow
+```
+Sales → Input Lead Baru → Assign ke Sales Person → Follow Up → Update Status
+```
+
+### 2. Project Creation Flow
+```
+Sales → Pilih Lead → Pilih Produk → Input Estimasi Fee → Submit Project → 
+Manager Review → Approve/Reject → Jika Approved → Buat Customer
+```
+
+### 3. Customer Subscription Flow
+```
+Sales → Buat Customer Baru → Link ke Lead (optional) → 
+Pilih Multiple Services → Set Start/End Date → Set Monthly Fee → Save
+```
+
+## 🔐 Best Practices yang Diterapkan
+
+1. **Security**
+   - Session-based authentication
+   - Middleware protection untuk semua route
+   - CSRF protection
+   - SQL injection prevention via Eloquent ORM
+
+2. **Code Quality**
+   - MVC Architecture
+   - Eloquent ORM untuk database abstraction
+   - Resource Controllers
+   - Route naming conventions
+   - Blade templating dengan component reusability
+
+3. **Database**
+   - Foreign key constraints
+   - Cascade delete untuk data integrity
+   - Null on delete untuk optional relationships
+   - Proper indexing (unique constraints)
+   - Timestamps untuk audit trail
+
+4. **UI/UX**
+   - Responsive design
+   - Consistent color scheme
+   - Clear navigation
+   - Form validation feedback
+   - Mobile-friendly dengan burger menu
+
+## 🚧 Future Improvements
+
+- [ ] Role-based access control (RBAC)
+- [ ] Dashboard dengan statistik dan charts
+- [ ] Export data to Excel/PDF
+- [ ] Email notifications untuk approval
+- [ ] Activity log untuk audit trail
+- [ ] Advanced search dan filtering
+- [ ] Pagination untuk large datasets
+- [ ] API endpoints untuk mobile app integration
+
+## 📝 Notes
+
+- Application menggunakan Simple.css framework untuk styling
+- Semua form memiliki consistent button styling (purple submit, red cancel)
+- Database menggunakan PostgreSQL 14 sesuai requirements
+- Session-based authentication (simple, no need for Sanctum/Passport)
+- Approval workflow implemented di Project management
+
+## 🛠️ Troubleshooting
+
+### Database Connection Error
+```bash
+# Check PostgreSQL is running
+docker ps | grep crm_postgres
+
+# Restart container
+docker restart crm_postgres
+```
+
+### View Not Found
+```bash
+php artisan view:clear
+php artisan config:clear
+```
+
+### Permission Denied
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+## 📧 Contact
+
+Untuk pertanyaan atau masalah, silakan buka issue di repository ini.
+
+## 📄 License
+
+This project is proprietary software developed for PT. Smart ISP.

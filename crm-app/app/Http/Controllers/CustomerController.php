@@ -48,4 +48,16 @@ class CustomerController
 
         return Redirect::route('customers.index');
     }
+
+    public function show(Customer $customer)
+    {
+        $customer->load('services.product', 'lead');
+        return View::make('customers.show', compact('customer'));
+    }
+
+    public function destroy(Customer $customer)
+    {
+        $customer->delete();
+        return Redirect::route('customers.index');
+    }
 }

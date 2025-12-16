@@ -51,4 +51,10 @@ class ProjectController
         Approval::create(['project_id'=>$project->id,'approved_by'=>$userId,'approved'=>$approved,'notes'=>$request->input('notes'),'created_at'=>Carbon::now()]);
         return Redirect::route('projects.index');
     }
+
+    public function destroy(Project $project)
+    {
+        $project->delete();
+        return Redirect::route('projects.index');
+    }
 }

@@ -17,8 +17,14 @@
             font-family: system-ui, -apple-system, sans-serif;
             color: #000;
         }
-        h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, select {
+        h1 { color: #f5f5f5
+        } 
+        h2, h3, h4, h5, h6, p, a, label, input, textarea, select {
             color: #000;
+        }
+        /* Keep sidebar h2 white */
+        .sidebar h2 {
+            color: white !important;
         }
         input, textarea, select {
             color: #faf4f4ff;
@@ -119,6 +125,28 @@
         }
         .header-right button:hover {
             background: #c0392b;
+        }
+        /* Override link colors to blue - except sidebar and header */
+        main a {
+            color: #3498db !important;
+            text-decoration: underline !important;
+        }
+        main a:visited {
+            color: #2980b9 !important;
+        }
+        main a:hover {
+            color: #2980b9 !important;
+        }
+        /* Keep sidebar links white */
+        .sidebar a {
+            color: #ecf0f1 !important;
+        }
+        .sidebar a:visited {
+            color: #ecf0f1 !important;
+        }
+        /* Keep header title white */
+        header h1 {
+            color: white !important;
         }
         main {
             padding: 2rem;

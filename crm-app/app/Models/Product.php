@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = ['code','name','description','monthly_price'];
+
+    public function services()
+    {
+        return $this->hasMany(CustomerService::class);
+    }
 }

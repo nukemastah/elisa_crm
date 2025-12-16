@@ -12,4 +12,14 @@ class Lead extends Model
     {
         return $this->belongsTo(User::class,'assigned_to');
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 }

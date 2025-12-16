@@ -34,7 +34,7 @@
         }
         .subtitle {
             text-align: center;
-            color: #444;
+            color: #ffffffff;
             margin-bottom: 2rem;
             font-size: 0.9rem;
         }
