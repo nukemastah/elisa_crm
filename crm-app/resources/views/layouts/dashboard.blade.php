@@ -15,6 +15,13 @@
             display: flex;
             min-height: 100vh;
             font-family: system-ui, -apple-system, sans-serif;
+            color: #000;
+        }
+        h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, select {
+            color: #000;
+        }
+        input, textarea, select {
+            color: #faf4f4ff;
         }
         .sidebar {
             width: 250px;

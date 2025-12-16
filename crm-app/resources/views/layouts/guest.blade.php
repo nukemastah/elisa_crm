@@ -50,11 +50,12 @@
             flex-direction: column;
             gap: 1rem;
         }
-        input {
+        input, textarea, select {
             padding: 0.75rem;
-            border: 1px solid #ddd;
+            border: 1px solid #b69696ff;
             border-radius: 4px;
             font-size: 1rem;
+            color: #a58888ff;
         }
         button {
             padding: 0.75rem;
@@ -71,10 +72,14 @@
         }
         .error {
             background: #fee;
-            color: #c00;
+            color: #800;
             padding: 1rem;
             border-radius: 4px;
             margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        p {
+            color: #000;
         }
     </style>
 </head>
