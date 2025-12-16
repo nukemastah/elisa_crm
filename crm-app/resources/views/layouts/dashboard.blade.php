@@ -40,6 +40,8 @@
             top: 0;
             overflow-y: auto;
             transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
         .sidebar.hidden {
             left: -250px;
@@ -54,6 +56,7 @@
         .sidebar nav {
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
         .sidebar a {
             padding: 1rem 1.5rem;
@@ -107,23 +110,24 @@
             font-size: 1.5rem;
             color: #2c3e50;
         }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .header-right form {
+        .sidebar-footer form {
             margin: 0;
         }
-        .header-right button {
+        .sidebar-footer button {
+            width: 100%;
             background: #e74c3c;
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             border-radius: 4px;
             cursor: pointer;
         }
-        .header-right button:hover {
+        .sidebar-footer button:hover {
             background: #c0392b;
         }
         /* Override link colors to blue - except sidebar and header */
@@ -210,15 +214,18 @@
         <a href="{{ route('projects.index') }}" class="{{ request()->routeIs('projects.*') ? 'active' : '' }}">Projects</a>
         <a href="{{ route('customers.index') }}" class="{{ request()->routeIs('customers.*') ? 'active' : '' }}">Customers</a>
     </nav>
+    <div class="sidebar-footer">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </aside>
 
 <div class="main-container" id="mainContainer">
     <header>
         <button class="burger-btn" id="burgerBtn"></button>
         <h1>PT.Smart CRM</h1>
-        <div class="header-right">
-            <form action="{{ route('logout') }}" method="POST">@csrf <button type="submit">Logout</button></form>
-        </div>
     </header>
     <main>
         @if(session('status'))<div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">{{ session('status') }}</div>@endif

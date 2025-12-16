@@ -159,11 +159,6 @@ Aplikasi CRM berbasis web untuk mengotomasi dan mendigitalisasi proses sales, da
 10. System displays success message
 11. System redirects to projects list
 
-**Alternative Flow 8a: Lead already has active project**
-8a1. System shows error "Lead already has active project"
-8a2. User selects different lead
-8a3. Back to main flow step 7
-
 **Postconditions:**
 - New project created with status "pending"
 - Project visible in projects list
@@ -188,49 +183,40 @@ Aplikasi CRM berbasis web untuk mengotomasi dan mendigitalisasi proses sales, da
 **Main Flow (Approve):**
 1. Manager access Projects menu
 2. System displays list of projects, highlighting pending ones
-3. Manager clicks "Approve" button on a project
-4. System displays confirmation modal with approval notes field
-5. Manager enters notes (optional)
-6. Manager confirms approval
-7. System updates project:
-   - Set manager_approval = true
-   - Set status = "approved"
-   - Set manager_id = current user
-   - Save approval_notes
-8. System displays success message
-9. System refreshes projects list
-10. Approved project can now be converted to customer
+3. Manager clicks "Approve" button pada project pending
+4. System langsung mengupdate project:
+   - manager_approval = true
+   - status = "approved"
+   - manager_id = current user (jika tersedia)
+   - approval_notes = optional
+5. System menampilkan success dan reload list
+6. Approved project dapat dilanjutkan ke pembuatan customer (manual)
 
 **Alternative Flow (Reject):**
-3a. Manager clicks "Reject" button
-4a. System displays confirmation modal with rejection reason field
-5a. Manager enters reason (mandatory for rejection)
-6a. Manager confirms rejection
-7a. System updates project:
-   - Set manager_approval = false
-   - Set status = "rejected"
-   - Set manager_id = current user
-   - Save approval_notes with reason
-8a. System displays success message
-9a. Sales person can see rejection reason and fix issues
+3a. Manager klik "Reject" pada project pending
+4a. System mengupdate project:
+   - manager_approval = false
+   - status = "rejected"
+   - manager_id = current user (jika tersedia)
+   - approval_notes = optional
+5a. System menampilkan success dan reload list
+6a. Sales melihat status rejected di list
 
 **Postconditions (Approved):**
 - Project status changed to "approved"
-- Manager approval recorded
-- Sales person can create customer
-- Lead can be marked as "qualified"
+- Manager approval recorded (boolean + timestamp)
+- Sales dapat membuat customer secara manual
+- Lead status tetap (manual update jika diperlukan)
 
 **Postconditions (Rejected):**
 - Project status changed to "rejected"
-- Rejection reason recorded
-- Sales person notified (future)
-- Project cannot proceed until issues resolved
+- Rejection notes tercatat jika diisi
+- Sales dapat membuat project baru bila perlu
 
 **Business Rules:**
-- BR-09: Only managers can approve/reject projects
-- BR-10: Approval cannot be undone (audit trail)
-- BR-11: Rejection must have notes explaining reason
-- BR-12: Approved project enables customer creation
+- BR-09: Approve/Reject tersedia untuk project pending (role belum ditegakkan)
+- BR-10: Approval notes optional
+- BR-11: Approved project memungkinkan pembuatan customer (manual)
 
 ---
 
@@ -246,43 +232,34 @@ Aplikasi CRM berbasis web untuk mengotomasi dan mendigitalisasi proses sales, da
 1. User access Customers menu
 2. User clicks "Add Customer"
 3. System displays customer form with:
-   - Basic info fields (name, phone, email, address)
+   - Basic info fields (name, phone, email, address, joined_at)
    - Optional lead selection dropdown
-   - Multiple service selection checkboxes
-   - Date fields for each selected service
-   - Monthly fee field for each service
+   - Multiple service selection checkboxes (opsional)
+   - Start date dan monthly fee per service (end date tidak digunakan di form)
 4. User fills basic customer info
 5. User selects lead (optional, to link from project)
-6. User checks multiple services (e.g., Home 10Mbps + Home 20Mbps)
-7. For each service, user fills:
-   - Start date
-   - End date
-   - Monthly fee (defaults to product price, can be customized)
+6. (Optional) User mencentang satu atau lebih services
+7. Untuk setiap service yang dicentang, user isi:
+   - Start date (default sekarang bila kosong)
+   - Monthly fee (default 0 bila kosong)
+   - Status (default active)
 8. User submits form
-9. System validates all data
-10. System creates customer record
-11. System creates customer_services records for each selected service
-12. If linked to project, system updates project status to "completed"
-13. System displays success message
-14. System redirects to customers list
+9. System memvalidasi field customer (name, joined_at)
+10. System membuat customer record
+11. System membuat customer_services untuk services yang dicentang
+12. System menampilkan success message dan kembali ke customers list
 
 **Alternative Flow 9a: Validation Failed**
-9a1. System shows validation errors
+9a1. System shows validation errors pada field customer
 9a2. User corrects errors
 9a3. Back to main flow step 8
 
-**Alternative Flow 11a: Service Creation Failed**
-11a1. System rolls back customer creation
-11a2. System displays error message
-11a3. User tries again
-
 **Postconditions:**
 - Customer record created
-- Multiple service subscriptions created
-- Customer visible in customers list
-- Services tracked with start/end dates
-- Monthly fees recorded
-- Project marked as completed if linked
+- Service subscriptions dibuat hanya jika ada service yang dicentang
+- Customer visible di customers list
+- Start date tersimpan; end date tidak diminta di form
+- Monthly fees recorded jika diisi
 
 **Business Rules:**
 - BR-13: Customer name is mandatory
@@ -434,25 +411,19 @@ Aplikasi CRM berbasis web untuk mengotomasi dan mendigitalisasi proses sales, da
 - **BR-04**: Valid sources: website, referral, ads, cold call, other
 
 ### Project Management Rules
-- **BR-05**: One lead can only have one active/pending project
-- **BR-06**: Estimated fee must be positive number
-- **BR-07**: Project status defaults to "pending" on creation
-- **BR-08**: Manager approval defaults to false
-- **BR-09**: Only managers can approve/reject projects
-- **BR-10**: Approval decisions cannot be undone (audit trail)
-- **BR-11**: Rejection must include notes explaining reason
-- **BR-12**: Only approved projects can be converted to customers
+- **BR-05**: Estimated fee optional; numeric if provided
+- **BR-06**: Project status defaults to "pending" on creation
+- **BR-07**: Manager approval defaults to false
+- **BR-08**: Approve/Reject tersedia untuk project pending (role belum ditegakkan)
+- **BR-09**: Notes optional saat approve/reject
+- **BR-10**: Only approved projects should proceed to customer (manual)
 
-### Customer Management Rules
 - **BR-13**: Customer name is mandatory
-- **BR-14**: Customer must have at least one service
-- **BR-15**: Service start date must be before end date
-- **BR-16**: Monthly fee can differ from product price (for discounts/promos)
-- **BR-17**: One customer can subscribe to multiple services
-- **BR-18**: Each service has independent lifecycle
-- **BR-19**: Service status automatically changes based on dates
-- **BR-20**: Terminated services kept for historical reporting
-- **BR-21**: Customer can have mix of active/terminated services
+- **BR-14**: Joined_at is mandatory
+- **BR-15**: Services optional (boleh kosong)
+- **BR-16**: Monthly fee default 0 jika tidak diisi
+- **BR-17**: Multiple services per customer supported
+- **BR-18**: Service status manual (active/suspended/terminated)
 
 ### Product Management Rules
 - **BR-22**: Product code must be unique

@@ -27,7 +27,7 @@ Customer Relationship Management system untuk PT. Smart (Internet Service Provid
 - ✅ Tambah lead baru (nama, email, phone, address, source, status)
 - ✅ Edit data lead
 - ✅ Status tracking (new, contacted, qualified, lost)
-- ✅ Assignment ke user tertentu
+ - ✅ **Assignment** - Optional assignment ke user tertentu
 
 ### 3. Master Produk (Layanan Internet)
 - ✅ List semua produk layanan
@@ -39,9 +39,9 @@ Customer Relationship Management system untuk PT. Smart (Internet Service Provid
 - ✅ Proses konversi lead menjadi project
 - ✅ Assignment produk ke project
 - ✅ Estimasi biaya project
-- ✅ **Approval Manager** - Manager dapat approve/reject project
+ - ✅ **Approval Manager** - Approve/Reject langsung dari list
 - ✅ Status tracking (pending, approved, rejected, completed)
-- ✅ Approval notes untuk catatan manager
+ - ✅ **Approval Notes** - Catatan untuk manager (optional)
 
 ### 5. Customer Berlangganan
 - ✅ List customer yang sudah berlangganan
@@ -55,6 +55,7 @@ Customer Relationship Management system untuk PT. Smart (Internet Service Provid
 - ✅ Burger menu untuk mobile view
 - ✅ Consistent color scheme (purple primary, red cancel)
 - ✅ Clean and modern UI dengan good contrast
+ - ✅ Dashboard menampilkan ringkasan Leads & Projects dalam tabel (read-only)
 
 ## 📁 Struktur Database
 
@@ -150,8 +151,8 @@ php artisan serve
 Akses aplikasi di: **http://localhost:8000**
 
 **Login Credentials:**
-- Email: admin@smart.com
-- Password: password123
+- Email: admin@example.com
+- Password: password
 
 ## 📊 Entity Relationship Diagram
 
@@ -162,10 +163,11 @@ Buka dengan aplikasi [draw.io](https://app.diagrams.net/) untuk melihat visualis
 **Key Relationships:**
 - Leads → Projects (One to Many)
 - Products → Projects (One to Many)
-- Customers → Customer Services → Products (Many to Many)
-- Leads → Customers (One to One)
-- Users → Leads (One to Many, assignment)
-- Users → Projects (One to Many, manager approval)
+ - Leads → Customers (One to Many, optional)
+ - Customers → Customer Services → Products (Many to Many)
+ - Users → Leads (Optional assignment field)
+ - Users → Projects (Optional manager_id on approval)
+ - Projects → Approvals (history log per decision)
 
 ## 🗂️ Dokumentasi Tambahan
 

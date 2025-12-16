@@ -13,7 +13,8 @@ class HomeController
     {
         $leads = Lead::latest()->limit(5)->get();
         $projects = Project::latest()->limit(5)->get();
+        $customers = \App\Models\Customer::latest()->limit(5)->get();
         $products = Product::all();
-        return View::make('home', compact('leads','projects','products'));
+        return View::make('home', compact('leads','projects','products','customers'));
     }
 }

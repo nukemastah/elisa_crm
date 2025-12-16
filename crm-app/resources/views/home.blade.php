@@ -103,4 +103,40 @@
     </table>
   </section>
 
+  <section style="margin-top: 2rem;">
+    <h3>Recent Customers</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Services</th>
+          <th>Joined At</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($customers as $c)
+        <tr>
+          <td>{{ $c->id }}</td>
+          <td><strong>{{ $c->name }}</strong></td>
+          <td>{{ $c->phone ?? '-' }}</td>
+          <td>{{ $c->email ?? '-' }}</td>
+          <td style="text-align: center;">
+            <span style="background: #667eea; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">
+              {{ method_exists($c, 'services') ? $c->services->count() : ($c->services_count ?? 0) }}
+            </span>
+          </td>
+          <td>{{ $c->joined_at ? \Illuminate\Support\Carbon::parse($c->joined_at)->format('d M Y') : '-' }}</td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="6" style="text-align: center; color: #666;">No customers found</td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </section>
+
 @endsection
