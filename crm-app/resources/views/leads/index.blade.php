@@ -12,7 +12,6 @@
         <th>Email</th>
         <th>Source</th>
         <th>Status</th>
-        <th>Assigned To</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -39,7 +38,6 @@
             {{ ucfirst($lead->status) }}
           </span>
         </td>
-        <td>{{ optional($lead->assignedTo)->name ?? '-' }}</td>
         <td>
           <a href="{{ route('leads.edit', $lead) }}" style="margin-right: 10px;">Edit</a>
           <form method="POST" action="{{ route('leads.destroy', $lead) }}" style="display:inline" onsubmit="return confirm('Delete this lead?')">
