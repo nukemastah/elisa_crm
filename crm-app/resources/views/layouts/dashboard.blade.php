@@ -153,6 +153,25 @@
             background: #f5f5f5;
             min-height: calc(100vh - 80px);
         }
+        /* Table styling: white background with subtle borders */
+        table {
+            width: 100%;
+            background: #ffffff;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #e5e7eb; /* light gray border */
+            padding: 0.6rem 0.8rem;
+            vertical-align: top;
+        }
+        thead th {
+            background: #fafafa; /* very light header */
+            font-weight: 600;
+        }
+        tbody tr:nth-child(even),
+        tbody tr:nth-child(odd) {
+            background: transparent; /* remove zebra striping */
+        }
         .sidebar-overlay {
             display: none;
             position: fixed;

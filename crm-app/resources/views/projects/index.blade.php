@@ -38,17 +38,25 @@
           </span>
         </td>
         <td style="text-align: center;">
-          @if($proj->manager_approval)
+          @if($proj->status === 'approved')
             <span style="color: #388e3c; font-weight: bold;">✓ Approved</span>
+          @elseif($proj->status === 'rejected')
+            <span style="color: #c62828; font-weight: bold;">✗ Rejected</span>
           @else
             <span style="color: #f57c00;">Pending</span>
           @endif
         </td>
         <td>
-          @if(!$proj->manager_approval && $proj->status === 'pending')
+          @if($proj->status === 'pending')
             <form method="POST" action="{{ route('projects.approve', $proj) }}" style="display:inline; margin-right: 10px;">
               @csrf
+              <input type="hidden" name="approved" value="1">
               <button type="submit" style="background: #667eea; color: white; padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer;">Approve</button>
+            </form>
+            <form method="POST" action="{{ route('projects.approve', $proj) }}" style="display:inline; margin-right: 10px;">
+              @csrf
+              <input type="hidden" name="approved" value="0">
+              <button type="submit" style="background: #e67e22; color: white; padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer;">Reject</button>
             </form>
           @endif
           <form method="POST" action="{{ route('projects.destroy', $proj) }}" style="display:inline" onsubmit="return confirm('Delete this project?')">
