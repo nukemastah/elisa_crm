@@ -57,6 +57,9 @@
             font-size: 1rem;
             color: #a58888ff;
         }
+        input::placeholder {
+            color: #000000;
+        }
         button {
             padding: 0.75rem;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

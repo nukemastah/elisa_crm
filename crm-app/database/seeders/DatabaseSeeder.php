@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        $this->call(AdminUserSeeder::class);
         User::firstOrCreate(['email'=>'admin@example.com'],['name'=>'Admin User','password'=>Hash::make('password'),'role'=>'admin']);
         User::firstOrCreate(['email'=>'manager@example.com'],['name'=>'Manager One','password'=>Hash::make('password'),'role'=>'manager']);
         User::firstOrCreate(['email'=>'sales@example.com'],['name'=>'Sales One','password'=>Hash::make('password'),'role'=>'sales']);

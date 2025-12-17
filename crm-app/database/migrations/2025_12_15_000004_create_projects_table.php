@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lead_id')->constrained('leads')->cascadeOnDelete();
+            $table->foreignId('lead_id')->nullable()->constrained('leads')->nullOnDelete();
             $table->foreignId('product_id')->nullable()->constrained('products')->nullOnDelete();
             $table->decimal('estimated_fee', 12, 2)->default(0);
             $table->string('status')->default('pending');
