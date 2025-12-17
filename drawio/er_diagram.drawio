@@ -1,56 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net">
-  <diagram name="ER Diagram">
-    <mxGraphModel dx="1064" dy="574" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.7">
+  <diagram name="ER Diagram" id="0">
+    <mxGraphModel dx="1426" dy="747" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
-        <mxCell id="0"/>
-        <mxCell id="1" parent="0"/>
-        <!-- Entities: users, leads, products, projects, approvals, customers, customer_services -->
-        <mxCell id="users" value="users" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="160" height="120" as="geometry"/>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="users" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="users" vertex="1">
+          <mxGeometry height="120" width="160" x="40" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="leads" value="leads" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="40" width="160" height="120" as="geometry"/>
+        <mxCell id="leads" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="leads" vertex="1">
+          <mxGeometry height="120" width="160" x="240" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="products" value="products" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="440" y="40" width="160" height="120" as="geometry"/>
+        <mxCell id="products" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="products" vertex="1">
+          <mxGeometry height="120" width="160" x="440" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="projects" value="projects" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="200" width="200" height="120" as="geometry"/>
+        <mxCell id="projects" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="projects" vertex="1">
+          <mxGeometry height="120" width="200" x="300" y="210" as="geometry" />
         </mxCell>
-        <mxCell id="approvals" value="approvals" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="480" y="220" width="160" height="100" as="geometry"/>
+        <mxCell id="approvals" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="approvals" vertex="1">
+          <mxGeometry height="100" width="160" x="650" y="210" as="geometry" />
         </mxCell>
-        <mxCell id="customers" value="customers" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="40" y="220" width="180" height="120" as="geometry"/>
+        <mxCell id="customers" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="customers" vertex="1">
+          <mxGeometry height="120" width="180" x="40" y="220" as="geometry" />
         </mxCell>
-        <mxCell id="cust_services" value="customer_services" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="360" width="220" height="120" as="geometry"/>
+        <mxCell id="cust_services" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="customer_services" vertex="1">
+          <mxGeometry height="120" width="220" x="160" y="410" as="geometry" />
         </mxCell>
-        <!-- Relationships -->
-        <mxCell id="edge_leads_projects" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="leads" target="projects">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_leads_projects" edge="1" parent="1" source="leads" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="projects" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_products_projects" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="products" target="projects">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_products_projects" edge="1" parent="1" source="products" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="projects" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_users_leads" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="users" target="leads">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_users_leads" edge="1" parent="1" source="users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="leads" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_users_projects" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="users" target="projects">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_users_projects" edge="1" parent="1" source="users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="projects" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_leads_customers" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="leads" target="customers">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_leads_customers" edge="1" parent="1" source="leads" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="customers" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_customers_services" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="customers" target="cust_services">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_customers_services" edge="1" parent="1" source="customers" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="cust_services" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_products_services" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="products" target="cust_services">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_products_services" edge="1" parent="1" source="products" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="cust_services" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge_projects_approvals" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" edge="1" parent="1" source="projects" target="approvals">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="edge_projects_approvals" edge="1" parent="1" source="projects" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;" target="approvals" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

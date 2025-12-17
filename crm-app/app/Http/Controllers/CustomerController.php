@@ -15,8 +15,25 @@ class CustomerController
 {
     public function index()
     {
-        $customers = Customer::with('services.product')->get();
-        return View::make('customers.index', compact('customers'));
+        $q = request('q');
+        $sort = request('sort','id');
+        $dir = request('dir','desc');
+        $allowedSorts = ['id','name','email','phone','joined_at'];
+        if (!in_array($sort, $allowedSorts)) { $sort = 'id'; }
+        $dir = strtolower($dir) === 'asc' ? 'asc' : 'desc';
+
+        $query = Customer::with('services.product');
+        if ($q) {
+            $query->where(function($builder) use ($q) {
+                $builder->where('name','ILIKE',"%$q%")
+                        ->orWhere('email','ILIKE',"%$q%")
+                        ->orWhere('phone','ILIKE',"%$q%")
+                        ->orWhere('address','ILIKE',"%$q%");
+            });
+        }
+
+        $customers = $query->orderBy($sort,$dir)->paginate(10)->appends(request()->query());
+        return View::make('customers.index', compact('customers','q','sort','dir'));
     }
 
     public function create()
@@ -46,7 +63,7 @@ class CustomerController
             }
         }
 
-        return Redirect::route('customers.index');
+        return Redirect::route('customers.index')->with('success','Customer created');
     }
 
     public function show(Customer $customer)
@@ -58,6 +75,6 @@ class CustomerController
     public function destroy(Customer $customer)
     {
         $customer->delete();
-        return Redirect::route('customers.index');
+        return Redirect::route('customers.index')->with('success','Customer deleted');
     }
 }

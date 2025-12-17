@@ -12,27 +12,31 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('customers.store') }}" style="display: flex; flex-direction: column; gap: 1rem;">
+    <form method="POST" action="{{ route('customers.store') }}" style="display: flex; flex-direction: column; gap: 1rem;" novalidate>
         @csrf
 
         <div>
             <label for="name" style="font-weight: bold;">Customer Name:</label>
             <input type="text" id="name" name="name" value="{{ old('name') }}" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('name')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="email" style="font-weight: bold;">Email:</label>
             <input type="email" id="email" name="email" value="{{ old('email') }}" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('email')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="phone" style="font-weight: bold;">Phone:</label>
             <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('phone')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="address" style="font-weight: bold;">Address:</label>
             <textarea id="address" name="address" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">{{ old('address') }}</textarea>
+            @error('address')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
@@ -45,11 +49,13 @@
                     </option>
                 @endforeach
             </select>
+            @error('lead_id')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="joined_at" style="font-weight: bold;">Join Date:</label>
             <input type="date" id="joined_at" name="joined_at" value="{{ old('joined_at', date('Y-m-d')) }}" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('joined_at')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <fieldset style="border: 1px solid #ddd; padding: 1rem; border-radius: 4px;">

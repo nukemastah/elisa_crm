@@ -1,17 +1,26 @@
 @extends('layouts.dashboard')
 @section('content')
   <h2>Leads</h2>
-  <a href="{{ route('leads.create') }}">Create Lead</a>
+  <div style="display:flex; gap: 1rem; align-items:center; margin-bottom: 1rem;">
+    <a href="{{ route('leads.create') }}">Create Lead</a>
+    <form method="GET" action="{{ route('leads.index') }}" style="display:flex; gap:.5rem; align-items:center;">
+      <input type="text" name="q" placeholder="Search leads..." value="{{ $q ?? '' }}" />
+      <button type="submit">Search</button>
+      @if(!empty($q))
+        <a href="{{ route('leads.index') }}">Reset</a>
+      @endif
+    </form>
+  </div>
   
   <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Source</th>
-        <th>Status</th>
+        <th><a href="{{ route('leads.index', array_merge(request()->query(), ['sort'=>'id','dir'=> ($sort==='id' && $dir==='asc') ? 'desc' : 'asc'])) }}">ID</a></th>
+        <th><a href="{{ route('leads.index', array_merge(request()->query(), ['sort'=>'name','dir'=> ($sort==='name' && $dir==='asc') ? 'desc' : 'asc'])) }}">Name</a></th>
+        <th><a href="{{ route('leads.index', array_merge(request()->query(), ['sort'=>'phone','dir'=> ($sort==='phone' && $dir==='asc') ? 'desc' : 'asc'])) }}">Phone</a></th>
+        <th><a href="{{ route('leads.index', array_merge(request()->query(), ['sort'=>'email','dir'=> ($sort==='email' && $dir==='asc') ? 'desc' : 'asc'])) }}">Email</a></th>
+        <th><a href="{{ route('leads.index', array_merge(request()->query(), ['sort'=>'source','dir'=> ($sort==='source' && $dir==='asc') ? 'desc' : 'asc'])) }}">Source</a></th>
+        <th><a href="{{ route('leads.index', array_merge(request()->query(), ['sort'=>'status','dir'=> ($sort==='status' && $dir==='asc') ? 'desc' : 'asc'])) }}">Status</a></th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -40,7 +49,7 @@
         </td>
         <td>
           <a href="{{ route('leads.edit', $lead) }}" style="margin-right: 10px;">Edit</a>
-          <form method="POST" action="{{ route('leads.destroy', $lead) }}" style="display:inline" onsubmit="return confirm('Delete this lead?')">
+          <form method="POST" action="{{ route('leads.destroy', $lead) }}" style="display:inline" class="js-delete" data-name="lead {{ $lead->name }}">
             @csrf
             @method('DELETE')
             <button type="submit" style="background: #e74c3c; color: white; padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
@@ -54,4 +63,7 @@
       @endforelse
     </tbody>
   </table>
+  <div style="margin-top:1rem;">
+    {{ $leads->onEachSide(1)->links() }}
+  </div>
 @endsection

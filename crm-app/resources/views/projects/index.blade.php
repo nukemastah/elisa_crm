@@ -1,16 +1,25 @@
 @extends('layouts.dashboard')
 @section('content')
   <h2>Projects</h2>
-  <a href="{{ route('projects.create') }}">Create Project</a>
+  <div style="display:flex; gap: 1rem; align-items:center; margin-bottom: 1rem;">
+    <a href="{{ route('projects.create') }}">Create Project</a>
+    <form method="GET" action="{{ route('projects.index') }}" style="display:flex; gap:.5rem; align-items:center;">
+      <input type="text" name="q" placeholder="Search projects..." value="{{ $q ?? '' }}" />
+      <button type="submit">Search</button>
+      @if(!empty($q))
+        <a href="{{ route('projects.index') }}">Reset</a>
+      @endif
+    </form>
+  </div>
   
   <table>
     <thead>
       <tr>
-        <th>ID</th>
+        <th><a href="{{ route('projects.index', array_merge(request()->query(), ['sort'=>'id','dir'=> ($sort==='id' && $dir==='asc') ? 'desc' : 'asc'])) }}">ID</a></th>
         <th>Lead</th>
         <th>Product</th>
-        <th>Estimated Fee</th>
-        <th>Status</th>
+        <th><a href="{{ route('projects.index', array_merge(request()->query(), ['sort'=>'estimated_fee','dir'=> ($sort==='estimated_fee' && $dir==='asc') ? 'desc' : 'asc'])) }}">Estimated Fee</a></th>
+        <th><a href="{{ route('projects.index', array_merge(request()->query(), ['sort'=>'status','dir'=> ($sort==='status' && $dir==='asc') ? 'desc' : 'asc'])) }}">Status</a></th>
         <th>Manager Approval</th>
         <th>Actions</th>
       </tr>
@@ -59,7 +68,7 @@
               <button type="submit" style="background: #e67e22; color: white; padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer;">Reject</button>
             </form>
           @endif
-          <form method="POST" action="{{ route('projects.destroy', $proj) }}" style="display:inline" onsubmit="return confirm('Delete this project?')">
+          <form method="POST" action="{{ route('projects.destroy', $proj) }}" style="display:inline" class="js-delete" data-name="project #{{ $proj->id }}">
             @csrf
             @method('DELETE')
             <button type="submit" style="background: #e74c3c; color: white; padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
@@ -73,4 +82,7 @@
       @endforelse
     </tbody>
   </table>
+  <div style="margin-top:1rem;">
+    {{ $projects->onEachSide(1)->links() }}
+  </div>
 @endsection

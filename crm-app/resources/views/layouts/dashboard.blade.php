@@ -157,6 +157,32 @@
             background: #f5f5f5;
             min-height: calc(100vh - 80px);
         }
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #d4edda;
+            color: #155724;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 200;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity .3s ease, transform .3s ease;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        /* Modal */
+        .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 300; display: none; }
+        .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 301; }
+        .modal .dialog { background: #fff; border-radius: 8px; width: 90%; max-width: 420px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+        .modal .dialog header { padding: 1rem 1.25rem; border-bottom: 1px solid #eee; font-weight: 600; }
+        .modal .dialog .body { padding: 1rem 1.25rem; color: #333; }
+        .modal .dialog footer { padding: .75rem 1.25rem; display: flex; gap: .5rem; justify-content: flex-end; border-top: 1px solid #eee; }
+        .btn { padding: .5rem .9rem; border-radius: 6px; border: none; cursor: pointer; }
+        .btn-danger { background: #e74c3c; color: #fff; }
+        .btn-secondary { background: #e5e7eb; color: #111827; }
         /* Table styling: white background with subtle borders */
         table {
             width: 100%;
@@ -229,8 +255,25 @@
     </header>
     <main>
         @if(session('status'))<div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">{{ session('status') }}</div>@endif
+        <div id="toast" class="toast" style="display:none;">{{ session('success') }}</div>
         @yield('content')
     </main>
+</div>
+
+<!-- Delete confirm modal -->
+<div class="modal-backdrop" id="confirmBackdrop"></div>
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="dialog">
+        <header id="confirmTitle">Confirm Deletion</header>
+        <div class="body">
+            <p id="confirmMessage">Are you sure?</p>
+        </div>
+        <footer>
+            <button class="btn btn-secondary" id="confirmCancel" type="button">Cancel</button>
+            <button class="btn btn-danger" id="confirmOk" type="button">Delete</button>
+        </footer>
+    </div>
+  
 </div>
 
 <script>
@@ -255,6 +298,64 @@
             link.addEventListener('click', toggleSidebar);
         });
     }
+
+    // Toast display
+    const toast = document.getElementById('toast');
+    if (toast && toast.textContent.trim().length > 0) {
+        toast.style.display = 'block';
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.style.display = 'none', 300);
+        }, 3000);
+    }
+
+    // Delete confirm modal (custom)
+    const deleteForms = document.querySelectorAll('form.js-delete');
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmBackdrop = document.getElementById('confirmBackdrop');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const btnOk = document.getElementById('confirmOk');
+    const btnCancel = document.getElementById('confirmCancel');
+    let pendingForm = null;
+
+    function openConfirm(message) {
+        confirmMessage.textContent = message;
+        confirmBackdrop.style.display = 'block';
+        confirmModal.style.display = 'flex';
+    }
+    function closeConfirm() {
+        confirmBackdrop.style.display = 'none';
+        confirmModal.style.display = 'none';
+        pendingForm = null;
+    }
+    deleteForms.forEach(f => {
+        f.addEventListener('submit', (e) => {
+            e.preventDefault();
+            pendingForm = f;
+            const name = f.getAttribute('data-name') || 'this item';
+            openConfirm(`Delete ${name}? This action cannot be undone.`);
+        });
+    });
+    btnCancel.addEventListener('click', closeConfirm);
+    confirmBackdrop.addEventListener('click', closeConfirm);
+    btnOk.addEventListener('click', () => {
+        if (pendingForm) {
+            // Prevent double-submit button presses
+            const btn = pendingForm.querySelector('button[type="submit"]');
+            if (btn) btn.disabled = true;
+            pendingForm.submit();
+            closeConfirm();
+        }
+    });
+
+    // Disable submit buttons on form submit to prevent duplicates
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', (e) => {
+            const btn = form.querySelector('button[type="submit"]');
+            if (btn) { btn.disabled = true; }
+        });
+    });
 </script>
 </body>
 </html>

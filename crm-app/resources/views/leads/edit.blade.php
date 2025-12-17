@@ -12,33 +12,38 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('leads.update', $lead) }}" style="display: flex; flex-direction: column; gap: 1rem;">
+    <form method="POST" action="{{ route('leads.update', $lead) }}" style="display: flex; flex-direction: column; gap: 1rem;" novalidate>
         @csrf
         @method('PUT')
 
         <div>
             <label for="name" style="font-weight: bold;">Name:</label>
             <input type="text" id="name" name="name" value="{{ old('name', $lead->name) }}" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('name')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="email" style="font-weight: bold;">Email:</label>
             <input type="email" id="email" name="email" value="{{ old('email', $lead->email) }}" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('email')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="phone" style="font-weight: bold;">Phone:</label>
             <input type="tel" id="phone" name="phone" value="{{ old('phone', $lead->phone) }}" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('phone')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="address" style="font-weight: bold;">Address:</label>
             <textarea id="address" name="address" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">{{ old('address', $lead->address) }}</textarea>
+            @error('address')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="source" style="font-weight: bold;">Source:</label>
             <input type="text" id="source" name="source" value="{{ old('source', $lead->source) }}" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('source')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
@@ -49,6 +54,7 @@
                 <option value="qualified" {{ old('status', $lead->status) === 'qualified' ? 'selected' : '' }}>Qualified</option>
                 <option value="proposal" {{ old('status', $lead->status) === 'proposal' ? 'selected' : '' }}>Proposal</option>
             </select>
+            @error('status')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div style="display: flex; gap: 1rem; margin-top: 1rem;">

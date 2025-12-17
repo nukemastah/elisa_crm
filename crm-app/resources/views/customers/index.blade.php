@@ -1,18 +1,27 @@
 @extends('layouts.dashboard')
 @section('content')
   <h2>Customers</h2>
-  <a href="{{ route('customers.create') }}">Add Customer</a>
+  <div style="display:flex; gap: 1rem; align-items:center; margin-bottom: 1rem;">
+    <a href="{{ route('customers.create') }}">Add Customer</a>
+    <form method="GET" action="{{ route('customers.index') }}" style="display:flex; gap:.5rem; align-items:center;">
+      <input type="text" name="q" placeholder="Search customers..." value="{{ $q ?? '' }}" />
+      <button type="submit">Search</button>
+      @if(!empty($q))
+        <a href="{{ route('customers.index') }}">Reset</a>
+      @endif
+    </form>
+  </div>
   
   <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
+        <th><a href="{{ route('customers.index', array_merge(request()->query(), ['sort'=>'id','dir'=> ($sort==='id' && $dir==='asc') ? 'desc' : 'asc'])) }}">ID</a></th>
+        <th><a href="{{ route('customers.index', array_merge(request()->query(), ['sort'=>'name','dir'=> ($sort==='name' && $dir==='asc') ? 'desc' : 'asc'])) }}">Name</a></th>
+        <th><a href="{{ route('customers.index', array_merge(request()->query(), ['sort'=>'phone','dir'=> ($sort==='phone' && $dir==='asc') ? 'desc' : 'asc'])) }}">Phone</a></th>
+        <th><a href="{{ route('customers.index', array_merge(request()->query(), ['sort'=>'email','dir'=> ($sort==='email' && $dir==='asc') ? 'desc' : 'asc'])) }}">Email</a></th>
         <th>Address</th>
         <th>Services Count</th>
-        <th>Joined At</th>
+        <th><a href="{{ route('customers.index', array_merge(request()->query(), ['sort'=>'joined_at','dir'=> ($sort==='joined_at' && $dir==='asc') ? 'desc' : 'asc'])) }}">Joined At</a></th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -32,7 +41,7 @@
         <td>{{ $c->joined_at ? \Illuminate\Support\Carbon::parse($c->joined_at)->format('d M Y') : '-' }}</td>
         <td>
           <a href="{{ route('customers.show', $c) }}" style="margin-right: 10px;">View</a>
-          <form method="POST" action="{{ route('customers.destroy', $c) }}" style="display:inline" onsubmit="return confirm('Delete this customer and all their services?')">
+          <form method="POST" action="{{ route('customers.destroy', $c) }}" style="display:inline" class="js-delete" data-name="customer {{ $c->name }}">
             @csrf
             @method('DELETE')
             <button type="submit" style="background: #e74c3c; color: white; padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
@@ -46,4 +55,7 @@
       @endforelse
     </tbody>
   </table>
+  <div style="margin-top:1rem;">
+    {{ $customers->onEachSide(1)->links() }}
+  </div>
 @endsection

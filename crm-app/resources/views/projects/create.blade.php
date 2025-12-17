@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('projects.store') }}" style="display: flex; flex-direction: column; gap: 1rem;">
+    <form method="POST" action="{{ route('projects.store') }}" style="display: flex; flex-direction: column; gap: 1rem;" novalidate>
         @csrf
 
         <div>
@@ -25,6 +25,7 @@
                     </option>
                 @endforeach
             </select>
+            @error('lead_id')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
@@ -37,11 +38,13 @@
                     </option>
                 @endforeach
             </select>
+            @error('product_id')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
             <label for="estimated_fee" style="font-weight: bold;">Estimated Fee (Rp):</label>
             <input type="number" id="estimated_fee" name="estimated_fee" value="{{ old('estimated_fee') }}" placeholder="e.g., 2000000" required step="1000" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            @error('estimated_fee')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div>
@@ -51,6 +54,7 @@
                 <option value="in_progress" {{ old('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
                 <option value="completed" {{ old('status') === 'completed' ? 'selected' : '' }}>Completed</option>
             </select>
+            @error('status')<small style="color:#c00;">{{ $message }}</small>@enderror
         </div>
 
         <div style="display: flex; gap: 1rem; margin-top: 1rem;">
