@@ -154,68 +154,9 @@ Akses aplikasi di: **http://localhost:8000**
 - Email: admin@smart.com
 - Password: password123
 
-## ☁️ Deploy di Render.com
+## 📊 Entity Relationship Diagram
 
-### Ringkas
-- Platform: Render.com (PHP 8.2 + Laravel via Docker)
-- Database: PostgreSQL (included, free tier 90 hari)
-- Web Service: Free tier 750 jam/bulan
-
-### 1) Persiapan File
-File sudah disiapkan:
-- [render.yaml](render.yaml) - Blueprint untuk web service + database
-- [Dockerfile](Dockerfile) - Container config untuk PHP 8.2 + Laravel
-
-### 2) Deploy ke Render
-1. Push kode ke GitHub (jika belum)
-   ```bash
-   git push origin main
-   ```
-
-2. Login ke [Render.com](https://render.com) (bisa pakai GitHub)
-
-3. Klik **New Blueprint Instance**
-
-4. Connect repository GitHub Anda (crm-app)
-
-5. Render akan otomatis detect `render.yaml` dan create:
-   - PostgreSQL database (`crm-db`)
-   - Web service (`crm-app`) dengan auto-deploy dari GitHub
-
-6. Tunggu build selesai (~5-10 menit pertama kali)
-
-### 3) Set Environment Variables (Optional)
-Render akan auto-set dari `render.yaml`, tapi Anda bisa tambahkan di Dashboard → Environment:
-- `APP_KEY` akan di-generate otomatis saat build
-- `APP_URL` akan di-set ke URL Render Anda
-- `DATABASE_URL` auto-linked dari database `crm-db`
-
-### 4) Buat User Admin (Sekali Saja)
-Setelah deploy berhasil, buka Shell di Render Dashboard:
-```bash
-php artisan tinker
-```
-```php
-\App\Models\User::create([
-  'name' => 'Admin',
-  'email' => 'admin@smart.com',
-  'password' => bcrypt('password123')
-]);
-```
-
-### 5) Akses Aplikasi
-- URL publik: `https://crm-app-xxxx.onrender.com` (lihat di Render Dashboard)
-- Login dengan admin@smart.com / password123
-
-### Troubleshooting Render
-- **Build failed**: Periksa Logs di Render Dashboard, pastikan `Dockerfile` valid.
-- **Database connection error**: Pastikan `DATABASE_URL` sudah ter-link di Environment Variables.
-- **Migration gagal**: Jalankan manual via Shell: `php artisan migrate --force`
-- **App sleep di free tier**: Free tier sleep setelah 15 menit idle; akan bangun otomatis saat diakses (butuh ~30 detik).
-
-### Auto-Deploy
-- Setiap `git push` ke branch `main` akan trigger auto-deploy di Render.
-- Lihat progress di Render Dashboard → Events.
+ERD tersedia dalam file: `drawio/er_diagram.drawio`
 
 Buka dengan aplikasi [draw.io](https://app.diagrams.net/) untuk melihat visualisasi hubungan antar table.
 
