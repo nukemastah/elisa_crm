@@ -18,6 +18,13 @@ php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
+# Optional: prepare session table when using database driver
+if [ "${SESSION_DRIVER:-}" = "database" ]; then
+  if ! ls database/migrations/*create_sessions_table.php >/dev/null 2>&1; then
+    php artisan session:table || true
+  fi
+fi
+
 # Run migrations if DB available (auto)
 php artisan migrate --force || true
 
