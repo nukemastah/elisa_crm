@@ -6,7 +6,7 @@ Customer Relationship Management system untuk PT. Smart (Internet Service Provid
 
 **Tanggal Pengerjaan:**
 - Mulai: 15 Desember 2025
-- Selesai: 16 Desember 2025
+- Selesai: 18 Desember 2025
 
 **Stack Teknologi:**
 - Laravel 11
@@ -151,8 +151,8 @@ php artisan serve
 Akses aplikasi di: **http://localhost:8000**
 
 **Login Credentials:**
-- Email: admin@example.com
-- Password: password
+- Email: admin@smart.com
+- Password: password123
 
 ## 📊 Entity Relationship Diagram
 
