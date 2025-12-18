@@ -176,11 +176,11 @@ Tambahkan secrets berikut di Replit (Tools → Secrets):
 - `DB_DATABASE=<nama database>`
 - `DB_USERNAME=<user database>`
 - `DB_PASSWORD=<password database>`
-- `SESSION_DRIVER=cookie` (disarankan untuk Replit)
+- `SESSION_DRIVER=database` (disarankan)
 
 Catatan:
 - `APP_KEY` akan dibuat otomatis oleh script start jika belum ada.
-- Untuk sesi, gunakan `SESSION_DRIVER=cookie` agar tidak bergantung pada filesystem/DB.
+- `SESSION_DRIVER=database` akan otomatis membuat migration sessions (via start script) jika belum ada.
 
 ### 3) Ambil Kredensial dari Provider
 - Neon: pada Project → Connection Details → “Direct Connection”, ambil host, db, user, password.
@@ -191,17 +191,16 @@ Buka Shell di Replit dan jalankan:
 ```
 php artisan migrate --force
 ```
-Opsional jika ingin session via DB:
-```
-php artisan session:table
-php artisan migrate --force
-```
+
+Catatan: start script juga menjalankan migrate dan akan membuat migration sessions jika `SESSION_DRIVER=database` dan migration belum ada.
 
 ### 5) Menjalankan Aplikasi
 - Klik Run di Replit. Script [start-replit.sh](start-replit.sh) akan:
    - Install composer dependencies (jika belum)
    - Generate `APP_KEY` (jika belum)
    - Cache config/route/view
+   - Membuat migration sessions jika `SESSION_DRIVER=database` dan belum ada
+   - Menjalankan migrasi
    - Menjalankan Laravel pada host `0.0.0.0` dan port Replit (`PORT`)
 - Akses via URL publik Replit Anda (atau Preview di Replit).
 
