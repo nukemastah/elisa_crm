@@ -1,5 +1,0 @@
-run = "bash start-replit.sh"
-language = "bash"
-
-[env]
-PORT = "3000"

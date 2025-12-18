@@ -154,64 +154,68 @@ Akses aplikasi di: **http://localhost:8000**
 - Email: admin@smart.com
 - Password: password123
 
-## ☁️ Deploy di Replit + Cloud Postgres
+## ☁️ Deploy di Render.com
 
 ### Ringkas
-- Platform: Replit (PHP 8.2 + Laravel)
-- Database: Cloud Postgres (Neon/Supabase/Railway/Render Postgres)
+- Platform: Render.com (PHP 8.2 + Laravel via Docker)
+- Database: PostgreSQL (included, free tier 90 hari)
+- Web Service: Free tier 750 jam/bulan
 
-### 1) Persiapan Replit
-- File sudah disiapkan: [.replit](.replit), [replit.nix](replit.nix), [start-replit.sh](start-replit.sh)
-- Nix config memuat `php82` dan ekstensi `pdo_pgsql` untuk Postgres.
-- Jika Anda mengubah `replit.nix`, klik Rebuild/Restart environment di Replit agar dependensi terpasang ulang.
+### 1) Persiapan File
+File sudah disiapkan:
+- [render.yaml](render.yaml) - Blueprint untuk web service + database
+- [Dockerfile](Dockerfile) - Container config untuk PHP 8.2 + Laravel
 
-### 2) Set Replit Secrets (Environment Variables)
-Tambahkan secrets berikut di Replit (Tools → Secrets):
-- `APP_ENV=production`
-- `APP_DEBUG=false`
-- `APP_URL=https://<url-replit-anda>`
-- `DB_CONNECTION=pgsql`
-- `DB_HOST=<host dari provider Postgres>`
-- `DB_PORT=5432` (atau sesuai provider)
-- `DB_DATABASE=<nama database>`
-- `DB_USERNAME=<user database>`
-- `DB_PASSWORD=<password database>`
-- `SESSION_DRIVER=database` (disarankan)
+### 2) Deploy ke Render
+1. Push kode ke GitHub (jika belum)
+   ```bash
+   git push origin main
+   ```
 
-Catatan:
-- `APP_KEY` akan dibuat otomatis oleh script start jika belum ada.
-- `SESSION_DRIVER=database` akan otomatis membuat migration sessions (via start script) jika belum ada.
+2. Login ke [Render.com](https://render.com) (bisa pakai GitHub)
 
-### 3) Ambil Kredensial dari Provider
-- Neon: pada Project → Connection Details → “Direct Connection”, ambil host, db, user, password.
-- Supabase: Project Settings → Database → Connection string (pilih “URI” atau “Non-psql clients”) lalu petakan ke variabel di atas.
+3. Klik **New Blueprint Instance**
 
-### 4) Jalankan Migrasi (sekali saat setup)
-Buka Shell di Replit dan jalankan:
+4. Connect repository GitHub Anda (crm-app)
+
+5. Render akan otomatis detect `render.yaml` dan create:
+   - PostgreSQL database (`crm-db`)
+   - Web service (`crm-app`) dengan auto-deploy dari GitHub
+
+6. Tunggu build selesai (~5-10 menit pertama kali)
+
+### 3) Set Environment Variables (Optional)
+Render akan auto-set dari `render.yaml`, tapi Anda bisa tambahkan di Dashboard → Environment:
+- `APP_KEY` akan di-generate otomatis saat build
+- `APP_URL` akan di-set ke URL Render Anda
+- `DATABASE_URL` auto-linked dari database `crm-db`
+
+### 4) Buat User Admin (Sekali Saja)
+Setelah deploy berhasil, buka Shell di Render Dashboard:
+```bash
+php artisan tinker
 ```
-php artisan migrate --force
+```php
+\App\Models\User::create([
+  'name' => 'Admin',
+  'email' => 'admin@smart.com',
+  'password' => bcrypt('password123')
+]);
 ```
 
-Catatan: start script juga menjalankan migrate dan akan membuat migration sessions jika `SESSION_DRIVER=database` dan migration belum ada.
+### 5) Akses Aplikasi
+- URL publik: `https://crm-app-xxxx.onrender.com` (lihat di Render Dashboard)
+- Login dengan admin@smart.com / password123
 
-### 5) Menjalankan Aplikasi
-- Klik Run di Replit. Script [start-replit.sh](start-replit.sh) akan:
-   - Install composer dependencies (jika belum)
-   - Generate `APP_KEY` (jika belum)
-   - Cache config/route/view
-   - Membuat migration sessions jika `SESSION_DRIVER=database` dan belum ada
-   - Menjalankan migrasi
-   - Menjalankan Laravel pada host `0.0.0.0` dan port Replit (`PORT`)
-- Akses via URL publik Replit Anda (atau Preview di Replit).
+### Troubleshooting Render
+- **Build failed**: Periksa Logs di Render Dashboard, pastikan `Dockerfile` valid.
+- **Database connection error**: Pastikan `DATABASE_URL` sudah ter-link di Environment Variables.
+- **Migration gagal**: Jalankan manual via Shell: `php artisan migrate --force`
+- **App sleep di free tier**: Free tier sleep setelah 15 menit idle; akan bangun otomatis saat diakses (butuh ~30 detik).
 
-### Troubleshooting Replit
-- "could not find driver" (pdo_pgsql): pastikan [replit.nix](replit.nix) mengandung `php82Extensions.pdo_pgsql`, lalu Rebuild environment.
-- "SQLSTATE[08006]": cek `DB_HOST/DB_PORT/DB_DATABASE/DB_USERNAME/DB_PASSWORD` sudah benar dan database dapat diakses publik.
-- "APP_KEY missing": jalankan `php artisan key:generate --force` di Shell (script start juga mencoba otomatis).
-
-## 📊 Entity Relationship Diagram
-
-ERD tersedia dalam file: `drawio/er_diagram.drawio`
+### Auto-Deploy
+- Setiap `git push` ke branch `main` akan trigger auto-deploy di Render.
+- Lihat progress di Render Dashboard → Events.
 
 Buka dengan aplikasi [draw.io](https://app.diagrams.net/) untuk melihat visualisasi hubungan antar table.
 
