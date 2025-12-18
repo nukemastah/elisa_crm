@@ -83,7 +83,7 @@ Lihat **DATA_DICTIONARY.md** untuk detail lengkap struktur database.
 1. **Clone Repository**
 ```bash
 git clone <repository-url>
-cd crm-app
+cd elisa_crm
 ```
 
 2. **Install Dependencies**
@@ -105,8 +105,8 @@ DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=crm_db
-DB_USERNAME=postgres
-DB_PASSWORD=your_password
+DB_USERNAME=crm_user
+DB_PASSWORD=secret
 ```
 
 5. **Setup Database dengan Docker (Recommended)**
@@ -114,8 +114,8 @@ DB_PASSWORD=your_password
 docker run -d \
   --name crm_postgres \
   -e POSTGRES_DB=crm_db \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
+   -e POSTGRES_USER=crm_user \
+   -e POSTGRES_PASSWORD=secret \
   -p 5432:5432 \
   postgres:14
 ```
@@ -148,7 +148,9 @@ php artisan tinker
 php artisan serve
 ```
 
-Akses aplikasi di: **http://localhost:8000**
+Akses aplikasi di: **http://localhost:8000** (atau URL ngrok jika memakai tunnel)
+
+> Jika pakai ngrok: set `APP_URL=https://<ngrok-url>` di `.env`, lalu `php artisan config:clear && php artisan config:cache`.
 
 **Login Credentials:**
 - Email: admin@smart.com
