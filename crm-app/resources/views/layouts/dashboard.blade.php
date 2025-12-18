@@ -130,6 +130,32 @@
         .sidebar-footer button:hover {
             background: #c0392b;
         }
+        /* Live search form styling */
+        .live-search-form input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        .live-search-form input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        .live-search-form .search-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 0.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         /* Override link colors to blue - except sidebar and header */
         main a {
             color: #3498db !important;
@@ -309,6 +335,25 @@
             setTimeout(() => toast.style.display = 'none', 300);
         }, 3000);
     }
+
+    // Live search - auto submit form when typing
+    const searchForms = document.querySelectorAll('.live-search-form');
+    searchForms.forEach(form => {
+        const searchInput = form.querySelector('input[name="q"]');
+        const spinner = form.querySelector('.search-spinner');
+        let searchTimeout;
+
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                if (spinner) spinner.style.display = 'inline-block';
+                
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    form.submit();
+                }, 300); // Delay 300ms to avoid too many requests
+            });
+        }
+    });
 
     // Delete confirm modal (custom)
     const deleteForms = document.querySelectorAll('form.js-delete');

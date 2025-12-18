@@ -3,9 +3,9 @@
   <h2>Customers</h2>
   <div style="display:flex; gap: 1rem; align-items:center; margin-bottom: 1rem;">
     <a href="{{ route('customers.create') }}">Add Customer</a>
-    <form method="GET" action="{{ route('customers.index') }}" style="display:flex; gap:.5rem; align-items:center;">
+    <form method="GET" action="{{ route('customers.index') }}" class="live-search-form" style="display:flex; gap:.5rem; align-items:center;">
       <input type="text" name="q" placeholder="Search customers..." value="{{ $q ?? '' }}" />
-      <button type="submit">Search</button>
+      <div class="search-spinner"></div>
       @if(!empty($q))
         <a href="{{ route('customers.index') }}">Reset</a>
       @endif
