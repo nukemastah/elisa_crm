@@ -154,6 +154,62 @@ Akses aplikasi di: **http://localhost:8000**
 - Email: admin@smart.com
 - Password: password123
 
+## ☁️ Deploy di Replit + Cloud Postgres
+
+### Ringkas
+- Platform: Replit (PHP 8.2 + Laravel)
+- Database: Cloud Postgres (Neon/Supabase/Railway/Render Postgres)
+
+### 1) Persiapan Replit
+- File sudah disiapkan: [.replit](.replit), [replit.nix](replit.nix), [start-replit.sh](start-replit.sh)
+- Nix config memuat `php82` dan ekstensi `pdo_pgsql` untuk Postgres.
+- Jika Anda mengubah `replit.nix`, klik Rebuild/Restart environment di Replit agar dependensi terpasang ulang.
+
+### 2) Set Replit Secrets (Environment Variables)
+Tambahkan secrets berikut di Replit (Tools → Secrets):
+- `APP_ENV=production`
+- `APP_DEBUG=false`
+- `APP_URL=https://<url-replit-anda>`
+- `DB_CONNECTION=pgsql`
+- `DB_HOST=<host dari provider Postgres>`
+- `DB_PORT=5432` (atau sesuai provider)
+- `DB_DATABASE=<nama database>`
+- `DB_USERNAME=<user database>`
+- `DB_PASSWORD=<password database>`
+- `SESSION_DRIVER=cookie` (disarankan untuk Replit)
+
+Catatan:
+- `APP_KEY` akan dibuat otomatis oleh script start jika belum ada.
+- Untuk sesi, gunakan `SESSION_DRIVER=cookie` agar tidak bergantung pada filesystem/DB.
+
+### 3) Ambil Kredensial dari Provider
+- Neon: pada Project → Connection Details → “Direct Connection”, ambil host, db, user, password.
+- Supabase: Project Settings → Database → Connection string (pilih “URI” atau “Non-psql clients”) lalu petakan ke variabel di atas.
+
+### 4) Jalankan Migrasi (sekali saat setup)
+Buka Shell di Replit dan jalankan:
+```
+php artisan migrate --force
+```
+Opsional jika ingin session via DB:
+```
+php artisan session:table
+php artisan migrate --force
+```
+
+### 5) Menjalankan Aplikasi
+- Klik Run di Replit. Script [start-replit.sh](start-replit.sh) akan:
+   - Install composer dependencies (jika belum)
+   - Generate `APP_KEY` (jika belum)
+   - Cache config/route/view
+   - Menjalankan Laravel pada host `0.0.0.0` dan port Replit (`PORT`)
+- Akses via URL publik Replit Anda (atau Preview di Replit).
+
+### Troubleshooting Replit
+- "could not find driver" (pdo_pgsql): pastikan [replit.nix](replit.nix) mengandung `php82Extensions.pdo_pgsql`, lalu Rebuild environment.
+- "SQLSTATE[08006]": cek `DB_HOST/DB_PORT/DB_DATABASE/DB_USERNAME/DB_PASSWORD` sudah benar dan database dapat diakses publik.
+- "APP_KEY missing": jalankan `php artisan key:generate --force` di Shell (script start juga mencoba otomatis).
+
 ## 📊 Entity Relationship Diagram
 
 ERD tersedia dalam file: `drawio/er_diagram.drawio`

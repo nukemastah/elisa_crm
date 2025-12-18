@@ -18,8 +18,8 @@ php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-# Run migrations if DB available (optional)
-# php artisan migrate --force || true
+# Run migrations if DB available (auto)
+php artisan migrate --force || true
 
 # Start Laravel on Replit port
 php artisan serve --host=0.0.0.0 --port=${PORT:-3000}
